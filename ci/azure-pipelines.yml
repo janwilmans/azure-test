@@ -1,0 +1,23 @@
+# available vmImages on azure pipelines:
+# vs2017-win2016, windows-2019, ubuntu-18.04, ubuntu-16.04, macOS-10.14, macOS-10.13
+
+trigger:
+- master
+
+- job: msvc_2019_Release_x64
+  timeoutInMinutes: 0
+  pool:
+    vmImage: 'windows-2019'
+  steps:
+  - script: |
+      echo on
+      set PATH=%ProgramFiles%\dotnet\;%WINDIR%;%WINDIR%\System32;%WINDIR%\System32\Wbem;%WINDIR%\System32\WindowsPowerShell\v1.0
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      set
+      mkdir logs
+      mkdir release_x64
+      pushd release_x64
+      cmake -G Ninja ..
+      popd
+      cmake --build release_x64 --verbose
+    displayName: 'CMake using ninja on VS2019'
