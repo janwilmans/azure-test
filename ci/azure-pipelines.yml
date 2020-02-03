@@ -4,6 +4,7 @@
 trigger:
 - master
 
+jobs:
 - job: msvc_2019_Release_x64
   timeoutInMinutes: 0
   pool:
